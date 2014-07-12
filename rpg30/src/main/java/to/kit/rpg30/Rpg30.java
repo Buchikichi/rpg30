@@ -4512,11 +4512,11 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		}
 //	20990  ON  INT(RND(1)*10)+1 GOSUB *TEKIG.4,*TEKIG.4,*TEKIG.4,*TEKIG.4,*TEKIR.4,*TEKIR.4,*TEKIR.4,*TEKIY.4,*TEKIY.4,*TEKIM.4
 		int rnd = ((int) (Math.random() * 10)) + 1;
-		if (1 <= rnd && 4 <= rnd) {
+		if (1 <= rnd && rnd <= 4) {
 			tekig4(enemy);
-		} else if (5 <= rnd && 7 <= rnd) {
+		} else if (5 <= rnd && rnd <= 7) {
 			tekir4(enemy);
-		} else if (8 <= rnd && 9 <= rnd) {
+		} else if (8 <= rnd && rnd <= 9) {
 			tekiy4(enemy);
 		} else if (rnd == 10) {
 			tekim4(enemy);
@@ -4569,7 +4569,9 @@ public final class Rpg30 extends JFrame implements KeyListener {
 	 */
 	private void tekig4(Enemy enemy) {
 //	21045  COLOR=( 6,&HF80)
+		N88.color(6, 0xf80);
 //	21050  COLOR=(14,&HF08)
+		N88.color(14, 0xf08);
 //	21055  TNA$="グリーン　"+TNA$
 		enemy.setTna$("グリーン　" + enemy.getTna$());
 //	21060  OPL =VAL("&HF80")
@@ -4584,7 +4586,9 @@ public final class Rpg30 extends JFrame implements KeyListener {
 	 */
 	private void tekir4(Enemy enemy) {
 //	21085  COLOR=( 6,&H8F0)
+		N88.color(6, 0x8f0);
 //	21090  COLOR=(14,&HF8)
+		N88.color(14, 0xf8);
 //	21095  TNA$="レッド　　"+TNA$
 		enemy.setTna$("レッド　　" + enemy.getTna$());
 //	21100  OPL =VAL("&H8F0")
@@ -4604,7 +4608,9 @@ public final class Rpg30 extends JFrame implements KeyListener {
 	 */
 	private void tekiy4(Enemy enemy) {
 //	21135  COLOR=( 6,&HFF0)
+		N88.color(6, 0xff0);
 //	21140  COLOR=(14,&HAA0)
+		N88.color(14, 0xaa0);
 //	21145  TNA$="イエロー　"+TNA$
 		enemy.setTna$("イエロー　" + enemy.getTna$());
 //	21150   OPL=VAL("&HFF0")
@@ -4624,7 +4630,9 @@ public final class Rpg30 extends JFrame implements KeyListener {
 	 */
 	private void tekim4(Enemy enemy) {
 //	21185  COLOR=( 6,&H666)
+		N88.color(6, 0x666);
 //	21190  COLOR=(14,&HCCC)
+		N88.color(14, 0xccc);
 //	21195  TNA$="メタル　　"+TNA$
 		enemy.setTna$("メタル　　" + enemy.getTna$());
 //	21200  OPL =VAL("&H666")

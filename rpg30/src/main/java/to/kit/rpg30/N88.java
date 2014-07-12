@@ -15,6 +15,12 @@ public final class N88 {
 			new Color(230, 230, 230), new Color(0, 0, 128), new Color(128, 0, 0),
 			new Color(128, 0, 128), new Color(0, 128, 0),
 			new Color(0, 128, 128), new Color(128, 128, 0), Color.LIGHT_GRAY };
+	/** カラーパッチ. */
+	public static final Color[] PATCH = new Color[16];
+
+	static {
+		resetPatch();
+	}
 
 	/**
 	 * Convert to String from JIS code.
@@ -86,6 +92,20 @@ public final class N88 {
 		return ByteBuffer.wrap(buff).order(ByteOrder.LITTLE_ENDIAN).getShort();
 	}
 
+	public static void resetPatch() {
+		for (int ix = 0; ix < PATCH.length; ix++) {
+			PATCH[ix] = PAL[ix];
+		}
+	}
+
+	public static void color(int ix, int n88color) {
+		int g = (n88color & 0xf00) / 16;
+		int r = n88color & 0x0f0;
+		int b = (n88color & 0x00f) * 16;
+
+		PATCH[ix] = new Color(r, g, b);
+	}
+
 	/**
 	 * Get back N88-Image.
 	 * @param img
@@ -122,12 +142,14 @@ public final class N88 {
 			for (int px = 0; px < width; px++) {
 				int pal = matrix[py][px];
 
-				g2d.setColor(PAL[pal]);
+				g2d.setColor(PATCH[pal]);
 				g2d.drawLine(px, py, px, py);
 			}
 		}
+		resetPatch();
 		return image;
 	}
+
 	/**
 	 * Get back N88-Image(640*400).
 	 * @param img
