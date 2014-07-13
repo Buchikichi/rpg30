@@ -15,7 +15,7 @@ public final class VirtualScreen {
 	private static final int CHAR_WIDTH = 8;
 	private static final int CHAR_HEIGHT = 16;
 	private static final int CLIP_X = CHAR_WIDTH * 2;
-	private static final Font DEFAULT_FONT = new Font("ＭＳ ゴシック", Font.PLAIN, 15);
+	private static final Font DEFAULT_FONT = new Font(Font.DIALOG, Font.PLAIN, 15);
 
 	private BufferedImage image = new BufferedImage(SCREEN_WIDTH, SCREEN_HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private int startRow;
@@ -72,7 +72,7 @@ public final class VirtualScreen {
 		g.setColor(Color.WHITE);
 		g.fillRect(p.x, p.y, width, CHAR_HEIGHT);
 		g.setColor(Color.BLACK);
-		g.drawString(kanji, p.x, p.y + metrics.getAscent());
+		g.drawString(kanji, p.x + 2, p.y + metrics.getHeight() / 2 + 1);
 	}
 
 	public void put(int bx, int by, byte[] img) {
@@ -98,7 +98,6 @@ public final class VirtualScreen {
 
 		g.setFont(DEFAULT_FONT);
 		FontMetrics metrics = g.getFontMetrics();
-		int ascent = metrics.getAscent();
 		int dx = 0;
 		if (align == Align.RIGHT) {
 			char[] data = text.toCharArray();
@@ -109,7 +108,7 @@ public final class VirtualScreen {
 			scroll(g);
 			this.y = (this.scrollRow - 1) * CHAR_HEIGHT;
 		}
-		g.drawString(text, this.x - dx, this.y + ascent);
+		g.drawString(text, this.x - dx, this.y + metrics.getHeight() / 2 + 1);
 		this.y += CHAR_HEIGHT;
 	}
 	public void print(int val, Align align) {
