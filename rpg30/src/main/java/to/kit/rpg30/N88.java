@@ -92,6 +92,24 @@ public final class N88 {
 		return ByteBuffer.wrap(buff).order(ByteOrder.LITTLE_ENDIAN).getShort();
 	}
 
+	public static String toFull(String str) {
+		StringBuilder result = new StringBuilder();
+
+		for (char c : str.toCharArray()) {
+			if (Character.isDigit(c)) {
+				int diff = c - '0';
+				result.append((char) ('０' + diff));
+			} else {
+				result.append(c);
+			}
+		}
+		return result.toString();
+	}
+
+	public static String toFull(int val) {
+		return toFull(String.valueOf(val));
+	}
+
 	public static void resetPatch() {
 		for (int ix = 0; ix < PATCH.length; ix++) {
 			PATCH[ix] = PAL[ix];
