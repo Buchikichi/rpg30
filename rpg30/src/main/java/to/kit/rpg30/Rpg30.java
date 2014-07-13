@@ -18,6 +18,14 @@ import javax.swing.JOptionPane;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import to.kit.rpg30.item.Armor;
+import to.kit.rpg30.item.Arms;
+import to.kit.rpg30.item.Arms.ArmsFunction;
+import to.kit.rpg30.item.Helm;
+import to.kit.rpg30.item.Item;
+import to.kit.rpg30.item.Shield;
+import to.kit.rpg30.item.Sword;
+
 /**
  * RPG30.
  * @author S.Kanai
@@ -723,7 +731,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 	private static final String ONI31_D = "えーっ！ 本当？ 宝物を・・・";
 //	11535  *ONI4.D
 //	11540   DATA 西の湖の洞窟に魔物が住みついてから、井戸の水位が下がって、                      このままだとあと何日持つか・・・
-	private static final String ONI4_D = "";
+	private static final String ONI4_D = "西の湖の洞窟に魔物が住みついてから、井戸の水位が下がって、\nこのままだとあと何日持つか・・・";
 //	11545  *ONE4.D
 //	11550   DATA 水がいっぱいある南の町ルドイヤに引っ越そうかなぁ。
 	private static final String ONE4_D = "水がいっぱいある南の町ルドイヤに引っ越そうかなぁ。";
@@ -824,6 +832,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		this.scr.locate(4, 24);
 //	11800  PRINT D$
 		this.scr.print(ta);
+		String a$ = "\\MB";
 		Enemy enemy = null;
 //	11805  IF TGI1=1 THEN GOSUB *BOSS1
 //	11810  IF TGI3=1 THEN GOSUB *BOSS2
@@ -841,6 +850,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		} else if (this.map.getTgi5() == 1) {
 			enemy = new Enemy("暗黒龍　ギルドン", 4, 8000, 5000, 170, 55, 0, 5000);
 			this.btl.setTda(true);
+			a$ = "\\BOS";
 		}
 //	11825  GOSUB *ANY.M
 		anyM();
@@ -852,7 +862,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		wakuM(12, 12, 303, 303, 0);
 //	11840  GOSUB *CFKEY.M
 //	11845  GOSUB *BOSS.F
-		bossF("\\MB", enemy);
+		bossF(a$, enemy);
 //	11850  C=0
 		this.btl.setC(0);
 //	11855  GOSUB *ABOSS.F
@@ -955,11 +965,11 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		}
 //	12170 RETURN
 		return msg;
-	}
 //	12180 *SIBOU.M
 //	12185  DATA ．．．．．．　　　　　　　　　　　　　　　　　                            　　　死んでいる。
 //	12190  RESTORE *SIBOU.M
 //	12195 RETURN
+	}
 	private static final String SIBOU_M = "．．．．．．\n死んでいる。";
 
 	/**
@@ -1009,7 +1019,6 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		}
 //	12215 RETURN
 		return msg;
-	}
 //	12225  *ONI1
 //	12230   RESTORE *ONI1.D
 //	12235  RETURN
@@ -1038,6 +1047,8 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	12350  *ONI8
 //	12355   RESTORE *ONI8.D
 //	12360 RETURN
+	}
+
 	/**
 	 * 12370 *ONEESAN.3.
 	 * @return メッセージ
@@ -1085,7 +1096,6 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		}
 //	12380 RETURN
 		return msg;
-	}
 //	12390  *ONE1
 //	12395   RESTORE *ONE1.D
 //	12400  RETURN
@@ -1114,6 +1124,8 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	12515  *ONE8
 //	12520   RESTORE *ONE8.D
 //	12525 RETURN
+	}
+
 	/**
 	 * 12535 *OTOKO.3.
 	 * @return
@@ -1161,7 +1173,6 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		}
 //	12545 RETURN
 		return msg;
-	}
 //	12555  *OTO1
 //	12560   RESTORE *OTO1.D
 //	12565  RETURN
@@ -1190,6 +1201,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	12680  *OTO8
 //	12685   RESTORE *OTO8.D
 //	12690  RETURN
+	}
 
 	/**
 	 * 12700 *ONNA.3.
@@ -1238,7 +1250,6 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		}
 //	12710  RETURN
 		return msg;
-	}
 //	12720  *ONN1
 //	12725   RESTORE *ONN1.D
 //	12730  RETURN
@@ -1270,6 +1281,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	12865 *OUSAMA.3
 //	12870  RESTORE *OUSAMA.D
 //	12875 RETURN
+	}
 
 	/**
 	 * 12885 *KEY6.Y.
@@ -1318,11 +1330,10 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	12965  GOSUB *UEKAKU.M
 		uekakuM();
 //	12970 RETURN
-	}
-
 //	12980 *KEY61.G
 //	12985  GOSUB *DAME2.3
 //	12990 RETURN
+	}
 
 	/**
 	 * 13000 *KEY7.Y.
@@ -1568,12 +1579,27 @@ public final class Rpg30 extends JFrame implements KeyListener {
 			new Item("薬草", 50),
 			new Item("毒消し草", 20),
 			new Item("人形", 30 + 1 * sou),
-			new Item("日記帳 ", 40 + 2 * sou),
+			new Item("日記帳", 40 + 2 * sou),
 			new Item("風船", 80 + 3 * sou),
 			new Item("ＢＯＭＢ", 100 + 4 * sou),
 		};
 		for (Item item : itemList) {
 			result.put(item.getName(), item);
+		}
+		for (Arms arms : NEDAN_D[this.map.getMati()]) {
+			if (arms instanceof Shield) {
+				arms.setArms(this.ashF);
+			}
+			if (arms instanceof Helm) {
+				arms.setArms(this.aheF);
+			}
+			if (arms instanceof Armor) {
+				arms.setArms(this.aarF);
+			}
+			if (arms instanceof Sword) {
+				arms.setArms(this.ataF);
+			}
+			result.put(arms.getName(), arms);
 		}
 		return result;
 	}
@@ -1604,43 +1630,57 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		this.scr.locate(42, 4);
 //	13705  PRINT "人形      ．．．．．．．．";AKCNV$(STR$( 30+1*SOU))
 		int sou = this.sts.getSou();
-		this.scr.print("人形      ．．．．．．．．" + (30 + 1 * sou));
+		this.scr.print("人形      ．．．．．．．．" + N88.toFull(30 + 1 * sou));
 //	13710  LOCATE 42,5
 		this.scr.locate(42, 5);
 //	13715  PRINT "日記帳    ．．．．．．．．";AKCNV$(STR$( 40+2*SOU))
-		this.scr.print("日記帳    ．．．．．．．．" + (40 + 2 * sou));
+		this.scr.print("日記帳    ．．．．．．．．" + N88.toFull(40 + 2 * sou));
 //	13720  LOCATE 42,6
 		this.scr.locate(42, 6);
 //	13725  PRINT "風船　　  ．．．．．．．．";AKCNV$(STR$( 80+3*SOU))
-		this.scr.print("風船　　  ．．．．．．．．" + (80 + 3 * sou));
+		this.scr.print("風船　　  ．．．．．．．．" + N88.toFull(80 + 3 * sou));
 //	13730  LOCATE 42,7
 		this.scr.locate(42, 7);
 //	13735  PRINT "ＢＯＭＢ  ．．．．．．．．";AKCNV$(STR$(100+4*SOU))
-		this.scr.print("ＢＯＭＢ  ．．．．．．．．" + (100 + 4 * sou));
+		this.scr.print("ＢＯＭＢ  ．．．．．．．．" + N88.toFull(100 + 4 * sou));
 //	13740  LOCATE 42,9
 		this.scr.locate(42, 9);
+		int mati = this.map.getMati();
+		Item[] items = NEDAN_D[mati];
 //	13745  PRINT SHA$(MATI)
+		Item sha = items[0];
+		this.scr.print(sha.getName());
 //	13750  LOCATE 60,10
 		this.scr.locate(60, 10);
 //	13755  PRINT "．．．．";AKCNV$(STR$(NEDAN(0,MATI)))
+		this.scr.print("．．．．" + N88.toFull(sha.getAmount()));
 //	13760  LOCATE 42,11
 		this.scr.locate(42, 11);
 //	13765  PRINT HEA$(MATI)
+		Item hea = items[1];
+		this.scr.print(hea.getName());
 //	13770  LOCATE 60,12
 		this.scr.locate(60, 12);
 //	13775  PRINT "．．．．";AKCNV$(STR$(NEDAN(0,MATI)))
+		this.scr.print("．．．．" + N88.toFull(hea.getAmount()));
 //	13780  LOCATE 42,13
 		this.scr.locate(42, 13);
 //	13785  PRINT ARA$(MATI)
+		Item ara = items[2];
+		this.scr.print(ara.getName());
 //	13790  LOCATE 60,14
 		this.scr.locate(60, 14);
 //	13795  PRINT "．．．．";AKCNV$(STR$(NEDAN(1,MATI)))
+		this.scr.print("．．．．" + N88.toFull(ara.getAmount()));
 //	13800  LOCATE 42,15
 		this.scr.locate(42, 15);
 //	13805  PRINT TAA$(MATI)
+		Item taa = items[3];
+		this.scr.print(taa.getName());
 //	13810  LOCATE 60,16
 		this.scr.locate(60, 16);
 //	13815  PRINT "．．．．";AKCNV$(STR$(NEDAN(2,MATI)))
+		this.scr.print("．．．．" + N88.toFull(taa.getAmount()));
 //	13820  LOCATE 42,17
 		this.scr.locate(42, 17);
 //	13825  PRINT "店をでる"
@@ -1691,13 +1731,14 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	13910  LOCATE 40,A
 //	13915  PRINT "  "
 		this.scr.clearRect(319, 16, 16, 287);
-//	13920  IF A>2 AND A<8 THEN A=A-1
 		if (a > 2 && a < 8) {
+//	13920  IF A>2 AND A<8 THEN A=A-1
 			a--;
-		}
+		} else if (a > 8) {
 //	13925  IF A>8         THEN A=A-2
-		if (a > 8) {
 			a -= 2;
+		} else if (a == 2) {
+			a = 17;
 		}
 //	13930 RETURN
 		return a;
@@ -1713,13 +1754,14 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	13945  LOCATE 40,A
 //	13950  PRINT "  "
 		this.scr.clearRect(319, 16, 16, 287);
-//	13955  IF A>6 AND A<17 THEN A=A+2
 		if (a > 6 && a < 17) {
+//	13955  IF A>6 AND A<17 THEN A=A+2
 			a += 2;
-		}
+		} else if (a < 7) {
 //	13960  IF         A<7  THEN A=A+1
-		if (a < 7) {
 			a++;
+		} else if (a == 17) {
+			a = 2;
 		}
 //	13965 RETURN
 		return a;
@@ -1743,14 +1785,17 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		} else if (a == 4) {
 			buy("人形");
 		} else if (a == 5) {
-			buy("日記帳 ");
+			buy("日記帳");
 		} else if (a == 6) {
 			buy("風船");
 		} else if (a == 7) {
 			buy("ＢＯＭＢ");
-		} else if (a == 15) {
-			a15g();
+		} else if (9 <= a && a <= 15) {
+			int type = (a - 9) / 2;
+			Item item = NEDAN_D[this.map.getMati()][type];
+			buy(item.getName());
 		} else if (a == 17) {
+			// 店をでる
 			b = 1; // *A17.G
 		}
 //	13990 RETURN
@@ -1766,6 +1811,32 @@ public final class Rpg30 extends JFrame implements KeyListener {
 			nomoneyM();
 			return;
 		}
+		if (item instanceof Arms) {
+			int mati = this.map.getMati();
+			Item sell = null;
+
+			if (item instanceof Shield) {
+				sell = NEDAN_D[this.sts.getAsh()][0];
+			} else if (item instanceof Helm) {
+				sell = NEDAN_D[this.sts.getAhe()][1];
+			} else if (item instanceof Armor) {
+				sell = NEDAN_D[this.sts.getAar()][2];
+			} else if (item instanceof Sword) {
+				sell = NEDAN_D[this.sts.getAta()][3];
+			}
+			if (sell != null && 0 < sell.getAmount()) {
+				int income = sell.getAmount() / 2;
+				this.scr.locate(4, 24);
+				this.scr.print("今持ってる" + sell.getName() + "を" + N88.toFull(income)
+						+ "ＧＯＬＤで引きとるよ。");
+				this.sts.addGold(income);
+			}
+			((Arms) item).equip(mati);
+			this.sts.addGold(-item.getAmount());
+			arigatouM();
+			return;
+		}
+		// 消耗品
 		String[] itm = this.sts.getItm$();
 		if (StringUtils.isBlank(itm[0])) {
 			this.sts.addGold(-amount);
@@ -1780,7 +1851,6 @@ public final class Rpg30 extends JFrame implements KeyListener {
 			return;
 		}
 		motenaiM();
-	}
 //  14000 *A2.G
 //	14005  IF    GOLD!<50         THEN GOTO *NOMONEY.M
 //	14010  IF ITM$(0)="　　　　" THEN GOTO *A20.G
@@ -1927,7 +1997,6 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	14830  PRINT AKCNV$(STR$(INT(NEDAN(1,AAR)/2)));"ＧＯＬＤで引きとるよ。"
 //	14835  GOLD!=GOLD!+INT(NEDAN(1,AAR)/2)
 //	14840 RETURN
-	private void a15g() {
 //	14850 *A15.G
 //	14855  IF    GOLD!<NEDAN(2,MATI) THEN GOTO  *NOMONEY.M
 //	14860  IF NOT ATA=0             THEN GOSUB *A150.5
@@ -1936,7 +2005,6 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	14875  ON ATA GOSUB *ATA1.F,*ATA2.F,*ATA3.F,*ATA4.F,*ATA5.F
 //	14880  GOSUB *ARIGATOU.M
 //	14885 RETURN
-	}
 //	14895 *A150.5
 //	14900  LOCATE 4,24
 //	14905  PRINT "今持ってる";TAA$(ATA);"を";
@@ -1946,66 +2014,139 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	14930 *A17.G
 //	14935  B=1
 //	14940 RETURN
+	}
+	private ArmsFunction ataF = ix -> {
+		this.sts.setAta(ix);
 //	14950 *ATA1.F
+		if (ix == 1) {
 //	14955  ATAP=1
+			this.sts.setAtap(1);
+		}
 //	14960  RETURN
 //	14965 *ATA2.F
+		if (ix == 2) {
 //	14970  ATAP=2
+			this.sts.setAtap(2);
+		}
 //	14975  RETURN
 //	14980 *ATA3.F
+		if (ix == 3) {
 //	14985  ATAP=3
+			this.sts.setAtap(3);
+		}
 //	14990  RETURN
 //	14995 *ATA4.F
+		if (ix == 4) {
 //	15000  ATAP=5
+			this.sts.setAtap(5);
+		}
 //	15005  RETURN
 //	15010 *ATA5.F
+		if (ix == 5) {
 //	15015  ATAP=7
+			this.sts.setAtap(7);
+		}
 //	15020 RETURN
+	};
+	private ArmsFunction ashF = ix -> {
+		this.sts.setAsh(ix);
 //	15030 *ASH1.F
+		if (ix == 1) {
 //	15035  ASHP=3
+			this.sts.setAshp(3);
+		}
 //	15040  RETURN
 //	15045 *ASH2.F
+		if (ix == 2) {
 //	15050  ASHP=6
+			this.sts.setAshp(6);
+		}
 //	15055  RETURN
 //	15060 *ASH3.F
+		if (ix == 3) {
 //	15065  ASHP=10
+			this.sts.setAshp(10);
+		}
 //	15070  RETURN
 //	15075 *ASH4.F
+		if (ix == 4) {
 //	15080  ASHP=15
+			this.sts.setAshp(15);
+		}
 //	15085  RETURN
 //	15090 *ASH5.F
+		if (ix == 5) {
 //	15095  ASHP=20
+			this.sts.setAshp(20);
+		}
 //	15100 RETURN
+	};
+	private ArmsFunction aheF = ix -> {
+		this.sts.setAhe(ix);
 //	15110 *AHE1.F
+		if (ix == 1) {
 //	15115  AHEP=2
+			this.sts.setAhep(2);
+		}
 //	15120  RETURN
 //	15125 *AHE2.F
+		if (ix == 2) {
 //	15130  AHEP=3
+			this.sts.setAhep(3);
+		}
 //	15135  RETURN
 //	15140 *AHE3.F
+		if (ix == 3) {
 //	15145  AHEP=5
+			this.sts.setAhep(5);
+		}
 //	15150  RETURN
 //	15155 *AHE4.F
+		if (ix == 4) {
 //	15160  AHEP=8
+			this.sts.setAhep(8);
+		}
 //	15165  RETURN
 //	15170 *AHE5.F
+		if (ix == 5) {
 //	15175  AHEP=14
+			this.sts.setAhep(14);
+		}
 //	15180 RETURN
+	};
+	private ArmsFunction aarF = ix -> {
+		this.sts.setAar(ix);
 //	15190 *AAR1.F
+		if (ix == 1) {
 //	15195  AARP=10
+			this.sts.setAarp(10);
+		}
 //	15200  RETURN
 //	15205 *AAR2.F
+		if (ix == 2) {
 //	15210  AARP=15
+			this.sts.setAarp(15);
+		}
 //	15215  RETURN
 //	15220 *AAR3.F
+		if (ix == 3) {
 //	15225  AARP=20
+			this.sts.setAarp(20);
+		}
 //	15230  RETURN
 //	15235 *AAR4.F
+		if (ix == 4) {
 //	15240  AARP=25
+			this.sts.setAarp(25);
+		}
 //	15245  RETURN
 //	15250 *AAR5.F
+		if (ix == 5) {
 //	15255  AARP=32
+			this.sts.setAarp(32);
+		}
 //	15260 RETURN
+	};
 
 	/**
 	 * 道具.
@@ -2590,11 +2731,13 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		}
 //	16465 RETURN
 	}
+
+	private static final String[] FUNC_D = {
 //	16475 *FANC.D
 //	16480  DATA 戦う　,逃げる,魔法　,調べる,話す
 //	16485  DATA 昇る　,降りる,入る　,買う　,道具
-	private static final String[] FUNC_D = { "戦う　", "逃げる", "魔法　", "調べる", "話す　",
-			"昇る　", "降りる", "入る　", "買う　", "道具　" };
+		"戦う　", "逃げる", "魔法　", "調べる", "話す　",
+		"昇る　", "降りる", "入る　", "買う　", "道具　" };
 
 	/**
 	 * 16495 *GAMENF.
@@ -2646,38 +2789,76 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	16695   NEDAN(2,I)=C
 //	16700  NEXT I
 //	16705 RETURN
+	}
+	private static final Arms[][] NEDAN_D = {
 //	16715 *NEDAN.D
 //	16720  DATA "　　　　　　　　　　　　　　　　"
 //	16725  DATA "　　　　　　　　　　　　　　　　"
 //	16730  DATA "　　　　　　　　　　　　　　　　"
 //	16735  DATA "　　　　　　　　　　　　　　　　"
 //	16740  DATA    0,   0,   0
+		{
+			new Shield(StringUtils.EMPTY, 0),
+			new Helm(StringUtils.EMPTY, 0),
+			new Armor(StringUtils.EMPTY, 0),
+			new Sword(StringUtils.EMPTY, 0),
+		},
 //	16745  DATA "ＷＯＯＤ　ＳＨＩＥＬＤ"
 //	16750  DATA "ＰＬＡＳＴＩＣ　ＨＥＬＭ "
 //	16755  DATA "ＬＥＡＴＨＥＲ　ＡＲＭＯＲ"
 //	16760  DATA "ＳＨＯＲＴ　ＳＷＯＲＤ"
 //	16765  DATA   30, 50, 50
+		{
+			new Shield("ＷＯＯＤ　ＳＨＩＥＬＤ", 30),
+			new Helm("ＰＬＡＳＴＩＣ　ＨＥＬＭ ", 30),
+			new Armor("ＬＥＡＴＨＥＲ　ＡＲＭＯＲ", 50),
+			new Sword("ＳＨＯＲＴ　ＳＷＯＲＤ", 50),
+		},
 //	16770  DATA "ＣＯＰＰＥＲ　ＳＨＩＥＬＤ"
 //	16775  DATA "ＣＯＰＰＥＲ　ＨＥＬＭ"
 //	16780  DATA "ＣＨＡＩＮ　ＭＡＩＬ"
 //	16785  DATA "ＬＯＮＧ　ＳＷＯＲＤ"
 //	16790  DATA  80, 100, 150
+		{
+			new Shield("ＣＯＰＰＥＲ　ＳＨＩＥＬＤ", 80),
+			new Helm("ＣＯＰＰＥＲ　ＨＥＬＭ", 80),
+			new Armor("ＣＨＡＩＮ　ＭＡＩＬ", 100),
+			new Sword("ＬＯＮＧ　ＳＷＯＲＤ", 150),
+		},
 //	16795  DATA "ＩＲＯＮ　ＳＨＩＥＬＤ"
 //	16800  DATA "ＩＲＯＮ　ＨＥＬＭ"
 //	16805  DATA "ＤＵＲＡＬＵＭＩＮ　ＭＡＩＬ"
 //	16810  DATA "ＳＡＢＥＲ"
 //	16815  DATA  200,350,300
+		{
+			new Shield("ＩＲＯＮ　ＳＨＩＥＬＤ", 200),
+			new Helm("ＩＲＯＮ　ＨＥＬＭ", 200),
+			new Armor("ＤＵＲＡＬＵＭＩＮ　ＭＡＩＬ", 350),
+			new Sword("ＳＡＢＥＲ", 300),
+		},
 //	16820  DATA "ＤＵＲＡＬＵＭＩＮ　ＳＨＩＥＬＤ"
 //	16825  DATA "ＤＵＲＡＬＵＭＩＮ　ＨＥＬＭ"
 //	16830  DATA "ＴＩＴＡＮ　ＭＡＩＬ"
 //	16835  DATA "ＳＬＡＹＥＹ　ｏｆ　ＤＲＡＧＯＮ"
 //	16840  DATA  800,1200,1000
+		{
+			new Shield("ＤＵＲＡＬＵＭＩＮ　ＳＨＩＥＬＤ", 800),
+			new Helm("ＤＵＲＡＬＵＭＩＮ　ＨＥＬＭ", 800),
+			new Armor("ＴＩＴＡＮ　ＭＡＩＬ", 1200),
+			new Sword("ＳＬＡＹＥＹ　ｏｆ　ＤＲＡＧＯＮ", 1000),
+		},
 //	16845  DATA "ＴＩＴＡＮ　ＳＨＩＥＬＤ"
 //	16850  DATA "ＴＩＴＡＮ　ＨＥＬＭ"
 //	16855  DATA "１ＳＴ　ＣＬＡＳＳ　ＰＬＡＴＥ"
 //	16860  DATA "ＭＵＲＡＭＡＳＡ　ＢＬＡＤＥ"
 //	16865  DATA 2100,2800,4500
-	}
+		{
+			new Shield("ＴＩＴＡＮ　ＳＨＩＥＬＤ", 2100),
+			new Helm("ＴＩＴＡＮ　ＨＥＬＭ", 2100),
+			new Armor("１ＳＴ　ＣＬＡＳＳ　ＰＬＡＴＥ", 2800),
+			new Sword("ＭＵＲＡＭＡＳＡ　ＢＬＡＤＥ", 4500),
+		},
+	};
 
 	/**
 	 * 16875 *HAJIMARI.
@@ -2970,7 +3151,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	17665  LOCATE  A,3
 		this.scr.locate(78, 3);
 //	17670  PRINT AKCNV$(STR$(SRN))
-		this.scr.print(this.sts.getSrn(), Align.RIGHT);
+		this.scr.print(N88.toFull(this.sts.getSrn()), Align.RIGHT);
 //	17675  LOCATE 42,4
 		this.scr.locate(42, 4);
 //	17680  PRINT "Ｉ．Ｑ"
@@ -2979,7 +3160,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	17690  LOCATE  A,4
 		this.scr.locate(78, 4);
 //	17695  PRINT AKCNV$(STR$(IQ))
-		this.scr.print(this.sts.getIq(), Align.RIGHT);
+		this.scr.print(N88.toFull(this.sts.getIq()), Align.RIGHT);
 //	17700  LOCATE 42,5
 		this.scr.locate(42, 5);
 //	17705  PRINT "ＶＩＴＡＬＩＴＹ"
@@ -2988,7 +3169,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	17715  LOCATE  A,5
 		this.scr.locate(78, 5);
 //	17720  PRINT AKCNV$(STR$(VIT))
-		this.scr.print(this.sts.getVit(), Align.RIGHT);
+		this.scr.print(N88.toFull(this.sts.getVit()), Align.RIGHT);
 //	17725  LOCATE 42,7
 		this.scr.locate(42, 7);
 //	17730  PRINT "ＬＥＶＥＬ"
@@ -2997,7 +3178,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	17740  LOCATE  A,7
 		this.scr.locate(78, 7);
 //	17745  PRINT AKCNV$(STR$(LEV))
-		this.scr.print(this.sts.getLev(), Align.RIGHT);
+		this.scr.print(N88.toFull(this.sts.getLev()), Align.RIGHT);
 //	17750  LOCATE 42,8
 		this.scr.locate(42, 8);
 //	17755  PRINT "Ｈ．Ｐ．"
@@ -3007,7 +3188,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		this.scr.locate(78, 8);
 //	17770  PRINT AKCNV$(STR$(HP));"／";MID$(AKCNV$(STR$(MHP)),3,78-A)
 		String hp = this.sts.getHp() + "／" + this.sts.getMhp();
-		this.scr.print(hp, Align.RIGHT);
+		this.scr.print(N88.toFull(hp), Align.RIGHT);
 //	17775  LOCATE 42,9
 		this.scr.locate(42, 9);
 //	17780  PRINT "Ｍ．Ｐ．"
@@ -3017,7 +3198,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		this.scr.locate(78, 9);
 //	17795  PRINT AKCNV$(STR$(MP));"／";MID$(AKCNV$(STR$(MMP)),3,78-A)
 		String mp = this.sts.getMp() + "／" + this.sts.getMmp();
-		this.scr.print(mp, Align.RIGHT);
+		this.scr.print(N88.toFull(mp), Align.RIGHT);
 //	17800  LOCATE 42,10
 		this.scr.locate(42, 10);
 //	17805  PRINT "ＥＸＰ．"
@@ -3027,7 +3208,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		this.scr.locate(78, 10);
 //	17820  PRINT AKCNV$(STR$(EXPP!));"／";MID$(AKCNV$(STR$(MEXP!)),3,78-A)
 		String exp = this.sts.getExpp() + "／" + this.sts.getMexp();
-		this.scr.print(exp, Align.RIGHT);
+		this.scr.print(N88.toFull(exp), Align.RIGHT);
 //	17825  LOCATE 42,11
 		this.scr.locate(42, 11);
 //	17830  PRINT "ＧＯＬＤ"
@@ -3036,19 +3217,27 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	17840  LOCATE  A,11
 		this.scr.locate(78, 11);
 //	17845  PRINT AKCNV$(STR$(GOLD!))
-		this.scr.print(this.sts.getGold(), Align.RIGHT);
+		this.scr.print(N88.toFull(this.sts.getGold()), Align.RIGHT);
 //	17850  LOCATE 42,13
 		this.scr.locate(42, 13);
 //	17855  PRINT SHA$(ASH)
+		Item sha = NEDAN_D[this.sts.getAsh()][0];
+		this.scr.print(sha.getName());
 //	17860  LOCATE 42,14
 		this.scr.locate(42, 14);
 //	17865  PRINT HEA$(AHE)
+		Item hea = NEDAN_D[this.sts.getAhe()][1];
+		this.scr.print(hea.getName());
 //	17870  LOCATE 42,15
 		this.scr.locate(42, 15);
 //	17875  PRINT ARA$(AAR)
+		Item ara = NEDAN_D[this.sts.getAar()][2];
+		this.scr.print(ara.getName());
 //	17880  LOCATE 42,16
 		this.scr.locate(42, 16);
 //	17885  PRINT TAA$(ATA)
+		Item taa = NEDAN_D[this.sts.getAta()][3];
+		this.scr.print(taa.getName());
 //	17890  LOCATE 44,17
 		this.scr.locate(44, 17);
 //	17895  PRINT ITM$(0)
@@ -3972,8 +4161,6 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	19725  GOSUB *UEKAKU.M
 		uekakuM();
 //	19730 RETURN
-	}
-
 //	19740 *DOUKUTU1.3
 //	19745  FE$="1"
 //	19750   SX=6
@@ -4014,6 +4201,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	19960   SX=6
 //	19965   SY=4
 //	19970 RETURN
+	}
 
 	/**
 	 * 19980 *DERU.2.
@@ -4549,7 +4737,11 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		if (9 < a) {
 			a = 1;
 		}
-		this.map.bload("TEKI" + a$ + "." + a);
+		if (a$.endsWith("BOS")) {
+			this.map.bload("TEKI" + a$);
+		} else {
+			this.map.bload("TEKI" + a$ + "." + a);
+		}
 //	21020  IF     A$="\MB" THEN B=90            ELSE B=123
 		int b;
 		if ("\\MB".equals(a$)) {
@@ -4558,8 +4750,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 			b = 123;
 		}
 //	21025  PUT@ (B,B),TEKI,PSET
-		byte[] teki = this.map.getTeki();
-		this.scr.put(b, b, teki);
+		this.scr.put(b, b, this.map.getTeki());
 //	21030 RETURN
 	}
 
@@ -5144,8 +5335,6 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	22825  PRINT NA$+"は、新しい魔法を覚えた。"
 		this.scr.print(na$ + "は、新しい魔法を覚えた。");
 //	22830 RETURN
-	}
-
 //	22840 *MEXP1.5
 //	22845  MEXP!=   60
 //	22850 RETURN
@@ -5203,6 +5392,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	23200 *MEXP19.5
 //	23205  MEXP!=    0
 //	23210 RETURN
+	}
 
 	/**
 	 * 23220 *ENDING.G.
