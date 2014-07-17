@@ -4733,11 +4733,12 @@ public final class Rpg30 extends JFrame implements KeyListener {
 	private void bossF(String a$, Enemy enemy) throws IOException {
 //	21010  DEF SEG=VARPTR(TEKI(0),1)
 		int a = enemy.getA();
+		boolean isLast = a$.endsWith("BOS");
 //	21015  BLOAD "TEKI"+A$+"."+MID$(STR$(A),2,1),VARPTR(TEKI(0),0)
 		if (9 < a) {
 			a = 1;
 		}
-		if (a$.endsWith("BOS")) {
+		if (isLast) {
 			this.map.bload("TEKI" + a$);
 		} else {
 			this.map.bload("TEKI" + a$ + "." + a);
@@ -4746,6 +4747,8 @@ public final class Rpg30 extends JFrame implements KeyListener {
 		int b;
 		if ("\\MB".equals(a$)) {
 			b = 90;
+		} else if (isLast) {
+			b = 15;
 		} else {
 			b = 123;
 		}
@@ -5437,6 +5440,7 @@ public final class Rpg30 extends JFrame implements KeyListener {
 //	23315  GOSUB *VSYC.M
 		vsycM(10000);
 //	23320 END
+		System.exit(0);
 	}
 
 	@Override
