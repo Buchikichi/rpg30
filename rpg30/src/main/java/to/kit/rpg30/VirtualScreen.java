@@ -15,7 +15,7 @@ public final class VirtualScreen {
 	private static final int CHAR_WIDTH = 8;
 	private static final int CHAR_HEIGHT = 16;
 	private static final int CLIP_X = CHAR_WIDTH * 2;
-	private static final Font DEFAULT_FONT = new Font(Font.DIALOG, Font.PLAIN, 15);
+	private static final Font DEFAULT_FONT = new Font(Font.DIALOG, Font.PLAIN, 14);
 
 	private BufferedImage image = new BufferedImage(SCREEN_WIDTH, SCREEN_HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private int startRow;
@@ -128,7 +128,7 @@ public final class VirtualScreen {
 		int py = (this.startRow + 1) * CHAR_HEIGHT;
 		int width = SCREEN_WIDTH - CHAR_WIDTH * 4;
 		int dy = CHAR_HEIGHT;
-		int height = (this.scrollRow - this.startRow - 1) * CHAR_HEIGHT - 1;
+		int height = (this.scrollRow - this.startRow - 1) * CHAR_HEIGHT;
 
 		clipScroll(g);
 		g.copyArea(CLIP_X, py, width, height, 0, -dy);
